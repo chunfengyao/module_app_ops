@@ -2,6 +2,14 @@
 #### 注册方式
 ```kotlin
 class CodeBlock{
+    private val nativeErrors = intArrayOf(
+        SysSignalConst.SIGILL,
+        SysSignalConst.SIGTRAP,
+        SysSignalConst.SIGABRT,
+        SysSignalConst.SIGBUS,
+        SysSignalConst.SIGFPE,
+        SysSignalConst.SIGSEGV,
+    )
     fun init(){
         DefaultExceptionHandler.getInstance().regist(this,
                 object:DefaultExceptionHandler.ExceptionHandler{
@@ -9,7 +17,7 @@ class CodeBlock{
                     exception: Throwable,
                     occuredOnUIThread: Boolean
                 ) {
-                showCenter(
+                ToastUtil.showCenter(
                         "UI线程?${occuredOnUIThread},收到Java异常:${exception.message}"
                 )
             }
@@ -23,7 +31,7 @@ class CodeBlock{
                     nativeStackTrace: String,
                     currentThread: Thread
                 ): Boolean {
-                showCenter(
+                ToastUtil.showCenter(
                         "收到Native异常:$nativeStackTrace"
                 )
                 return true
