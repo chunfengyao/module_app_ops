@@ -24,8 +24,8 @@ public class NativeErrorManager {
     private static Context mContext;
     private static NativeErrorHandler mNativeErrorHandler;
 
-    public static void signalError() throws SysSignalException {
-        throw new SysSignalException();
+    public static void signalError(int signal) throws SysSignalException {
+        throw new SysSignalException(signal);
     }
 
     /**

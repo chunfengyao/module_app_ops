@@ -10,6 +10,6 @@ import androidx.annotation.Keep
  *
  */
 @Keep
-class SysSignalException: Exception("SysSignalException:NativeErrorManager.initWithSignals failed!please check the log!") {
+class SysSignalException(signal: Int) : Exception("SysSignalException:NativeErrorManager.initWithSignal:${signal} failed!please check the log!") {
 
 }
