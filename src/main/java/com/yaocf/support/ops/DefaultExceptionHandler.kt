@@ -102,7 +102,12 @@ class DefaultExceptionHandler private constructor() : Thread.UncaughtExceptionHa
         mEnableCommonNitice = enableCommonNitice
         //注册native层的异常拦截
         if (nativeErrorSignals != null){
-            NativeErrorManager.initSignal(nativeErrorSignals, appContext, nativeErrorHandler)
+            //这边以一个野线程的方式去启动（让so attach到一个独立的线程中），避免被线程池调度。TODO 所以，这里建议设置一下防止重入。
+            Thread(object :Runnable{
+                override fun run() {
+                    NativeErrorManager.initSignal(nativeErrorSignals, appContext, nativeErrorHandler)
+                }
+            }).start()
         }
         //进行主线程拦截初始化
         Handler(Looper.getMainLooper())
